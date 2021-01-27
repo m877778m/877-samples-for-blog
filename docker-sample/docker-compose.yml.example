@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  #
+  # LB container(Nginx)
+  #
+  877-docker-example-lb:
+    image: nginx
+    container_name: 877-docker-example-lb
+    ports:
+      - "10080:80"
+    volumes:
+      - ./lb/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - 877-docker-example-ap
+  #
+  # AP container(apache)
+  #
+  877-docker-example-ap:
+    build:
+      context: .
+      dockerfile: ./ap/Dockerfile
+    container_name: 877-docker-example-ap
+    volumes:
+      - ./ap/httpd/conf/httpd.conf:/etc/httpd/conf/httpd.conf
+      - ./ap/httpd/conf.d/877-example-ap.conf:/etc/httpd/conf.d/877-example-ap.conf
+      - ./ap/www:/home/mr.877/www
+    depends_on:
+      - 877-docker-example-db
+  #
+  # DataBase container(MariaDB)
+  #
+  877-docker-example-db:
+    image: mariadb
+    container_name: 877-docker-example-db
+    environment:
+      MYSQL_DATABASE: example_database
+      MYSQL_USER: mr_877
+      MYSQL_PASSWORD: 877877
+      MYSQL_ROOT_PASSWORD: root877877
+    ports:
+      - "13306:3306"
+  #
+  # Forward Proxy container(Squid)
+  #
+  877-docker-example-proxy:
+    build:
+      context: .
+      dockerfile: ./foward-proxy/Dockerfile
+    container_name: 877-docker-example-proxy
+    ports:
+      - "13128:3128"
+    volumes:
+      - ./foward-proxy/squid/squid.conf:/etc/squid/squid.conf
+
