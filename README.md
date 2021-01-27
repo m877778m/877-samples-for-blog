@@ -21,4 +21,4 @@
 ## サンプル一覧
 | No. | blogタイトル | 媒体 | 対応ディレクトリ |
 | --- | --- | --- | --- |
-| #1 | [5分でできる！超実践Doker入門(https://zenn.dev/m877778m/articles/085bccb48127b54f7dce)) | Zenn | docker-sample/ |
+| #1 | [5分でできる！超実践Doker入門](https://zenn.dev/m877778m/articles/085bccb48127b54f7dce)) | Zenn | docker-sample/ |
