@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <div><center><h1>ログイン</h1></center></div>
+    <div>
+        <!--フォーム-->
+        <form name="login_form">
+            <div>
+                <center>
+                    <div><input type="id" id="userid" name="userid" placeholder="ログインID"></div>
+                    <br>
+                    <div><input type="password" id="password" name="password" placeholder="パスワード"></div>
+                </center>
+
+            </div>
+            <center><button type="button" id="my-login">認証</button></center>
+        </form>
+        <!--ログイン処理-->
+<script type="text/javascript">
+$(function(){
+    // Ajax button click
+    $("#my-login").on("click",function(){
+        var $body = {
+            "userId":$("#userid").val(),
+            "password":$("#password").val(),
+        };
+        console.log($body)
+        $.ajax({
+              type: "POST",
+              url: "/my-auth",
+              data: JSON.stringify($body),
+              dataType : "json",
+              contentType: "application/json" 
+        }).done(function(data){
+            if (data.resultCode == 0) {
+                window.location.href = "/login-success.html";
+            } else {
+                window.location.href = "/login-failed.html";
+            }
+        }).fail(function(xhr, status, e){
+            console.log($.parseJSON(xhr.responseText))
+            window.location.href = "/login-failed.html";
+        }).always( (data) => {
+
+        });
+    });
+});
+</script>
+    </div>
+</body>
+</html>
